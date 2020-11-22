@@ -1,0 +1,82 @@
+{% block content %}
+<!DOCTYPE html>
+<html lang='en'> 
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <link href="https://veg.github.io/phylotree.js/phylotree.css" rel="stylesheet">
+  <link href="https://veg.github.io/phylotree.js/phylotree.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <script src="https://veg.github.io/phylotree.js/phylotree.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" charset="utf-8"></script>
+  <script src="static/resphyloapp.js" defer></script>
+  <!--completely OOPTIONAL styles (just for first prototype)-->
+  <link rel="stylesheet" href="static/optionalStyles.css" type="text/css"/>
+</head>
+
+<header id="header">Bio++ results</header>
+
+<!--body id="body" onload=paramsResults()-->
+<body id="body" >
+  <span hidden id="DATA">{{DATA}}</span>
+  <span hidden id="TREES">{{NWKFILEPATHS}}</span>
+  <h1>bppml results</h1>
+  <div id="lateral">
+    <div id="parameters">
+      <h3>Parameters</h3>
+      <!--Here paramResults will appear as defined by resphyloapp.js-->
+      <input id="childElement" type=button name=reuse value=reuse onclick="reuseparameters()">
+      <input id="childElementk" type=button name=reuse value=reuse onclick="reuseparameters()">
+      <button onclick="reloadparams()">Reload Output Parameters</button>
+
+      <div id="TextBoxContainer"></div>
+      <div id="EndTextBoxContainer" onload="RecreateDynamicTextboxes()">
+        <input id="childElement0"></div>
+      </div>
+
+      <!--a select files (from user local) button:-->
+
+      
+
+    </div>
+
+    <div id="SubtreeRelated">
+        <h4>SubTree Section (Newick)</h4>
+        <p> here the subtree selection 
+          should show up
+          in newik
+        </p>
+        <p> here the subtree selection 
+            should show up
+            in newik
+          </p>
+    </div>
+  </div> <!--end div lateral-->
+  <div id="blankdivision" width="5" height="5"></div>
+
+  <div id=treeplayground  width="1800" height="1200" >
+    <form>
+        <input type="button" name="showtree" value="showtree" onclick="treedisplay()">
+        <label>Radial layout</label>
+        <input type="checkbox" id="layout"  />
+    </form>
+    <div id="treeviz"  >
+        <svg id="tree_display" ></svg>
+    </div>
+  </div>
+
+</body>
+
+<footer id="footer">
+    <p> *** IMPORTANT pending to cite phylotree  
+      https://github.com/veg/phylotree.js 
+       http://phylotree.hyphy.org/documentation/index.html **</p>
+</footer>
+</html>
+{%  endblock content %}
