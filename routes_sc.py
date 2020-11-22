@@ -12,8 +12,9 @@ app = Flask(__name__)
 @app.route('/results_sc', methods = ['POST', 'GET'] )
 def results_sc(): 
 	#data = request.args['data']
-	data = '{"models": { "momo":"mimo", "model1=HKY" : [["theta1", "6"],["theta2","9"]],\
-		 "model2=autre": [["kappa", "2"],["theta","NKY85.qqch"]]}}'
+	data = '{"loglik" : [["value", "-3216.54"]],\
+		"models": [["m1_theta1","65656"],\
+		 	 ["m2_kappa" ,"9898989"]], "processes" : [["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"]]}'
 	nwkpaths = ["path1", "onsaitrecupererautantdepathsarbresresultats"]
 	return render_template('results_sc.html', title = 'results', DATA=data, NWKFILEPATHS = nwkpaths)
 	if request.method == 'GET':

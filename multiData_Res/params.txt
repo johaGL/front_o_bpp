@@ -1,0 +1,18 @@
+# Log likelihood = -7166.58012533502187579870
+
+result=phylo1 + phylo2
+
+phylo1=Single(process=1,data=1)
+
+phylo2=Single(process=1,data=2)
+
+
+model1=HKY85(kappa=T92.kappa_2,theta=0.485475178535,theta1=0.589932050924,theta2=0.459123624996)
+model2=T92(kappa=6.562599046453,theta=HKY85.theta_1)
+
+root_freq1=Full(values=(0.269461154384, 0.243846724043, 0.281966239648, 0.204725881926))
+
+rate_distribution1=Constant()
+
+process1=Nonhomogeneous(model1=1,model1.nodes_id=(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20),model2=2,model2.nodes_id=(21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44), tree=1, rate=1, root_freq=1)
+

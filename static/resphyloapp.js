@@ -3,80 +3,53 @@
  <span hidden id="show2">{{data}}</span>
  existing in results.html
 */
-// ALL VARIABLES  COME FROM FLASK :
-//https://stackoverflow.com/questions/42499535/passing-a-json-object-from-flask-to-javascript
-
-// ===== show in textarea the output parameters:
-
-function paramsResults(){
-    var DATASTR = document.getElementById('DATA').innerHTML;
-    var jsonobj = JSON.parse(DATASTR); //very important
-    var paramsString = jsonobj.models.momo;
-    var display = document.createElement("TEXTAREA"); // https://www.w3schools.com/js/js_htmldom_nodes.asp
-    display.setAttribute("id","pulledparameters");
-
-    var t = document.createTextNode(paramsString); 
-    display.appendChild(t);
-    document.body.appendChild(display);
-    var papa = document.getElementById("childElement");
-    var parentDiv = papa.parentNode;
-    parentDiv.insertBefore(display, papa); //insertAfter does not exist
-    //adding another textarea
-    
-    var concatvars = " % ";
-    //note: parameters nested lists (li) are known containing only two values
-    for (let prop in jsonobj.models){
-        concatvars = concatvars + prop + "-%-";
-        for (let li in jsonobj.models[prop]){
-            tmp = jsonobj.models[prop][li][0] +"::"+ jsonobj.models[prop][li][1];
-            concatvars = concatvars +  "__" + tmp;
-        }TextBoxContainer
-    }
-    var display2 = document.createElement("TEXTAREA"); 
-    display2.setAttribute("id","pulledparameters");
-    var t = document.createTextNode(concatvars); 
-    display2.appendChild(t);
-    document.body.appendChild(display2);
-    var papa2 = document.getElementById("childElementk");
-    var parentDiv2 = papa2.parentNode;
-    parentDiv2.insertBefore(display2, papa2);
-};
-
-function RecreateDynamicTextboxes(){
-    var values = "abcdef";
-    for (var i=0;i<values.length;i++) {
+function RecreateDynamicTextboxes(refparent,alist,categ){
+    for (var i=(alist.length)-1; i>=0; i--) {
         var parent = "";
-        if (i == 0 ){
-            parent = "EndTextBoxContainer";
+        tmp = alist[i];
+        if (i == (alist.length)-1 ){
+            parent = refparent;
         }
         else{
-            parent = i-1;
+            j = i+1
+            parent = categ+j;
         }
-        tmp = values[i];
         var display = document.createElement("TEXTAREA");
         var label = document.createElement("label");
-        display.setAttribute("id",i);
-        label.setAttribute("id",i);
-        var t = document.createTextNode(tmp+i);
-        var l = document.createTextNode(tmp+i);
+        display.setAttribute("id", categ+i);
+        display.style.height = "20px";
+        label.setAttribute("id",categ+i);
+        var t = document.createTextNode(tmp[1]);
+        var l = document.createTextNode(tmp[0]+":");
         display.appendChild(t);
         label.appendChild(l);
         var papa = document.getElementById(parent);
         var parentDiv = papa.parentNode;
         parentDiv.insertBefore(display,papa);
-        var papabox = document.getElementById(i);
+        var papabox = document.getElementById(categ+i);
         var parentDivbox = papabox.parentNode;
         parentDivbox.insertBefore(label,papabox);
-        //parentDivbox.insertBefore(label,papabox);
-    };
-    
+    };  
 }; 
 
-//function GetDynamicTextBox(){
-  //  var value = "experience";
-    //return '<input name = "DynamicTextBox" label="PPPPP" type="text" value = "' + value + '" />' ;
-//
-//};
+function assignDynTextboxes(values,categ){
+    var DATASTR = document.getElementById('DATA').innerHTML;
+    var jsonobj = JSON.parse(DATASTR); //very important
+    //note: parameters nested lists (li) are known containing only two values
+    /*for (let prop in jsonobj.models){
+        for (let li in jsonobj.models[prop]){
+            tmp = jsonobj.models[prop][li][0] +"::"+ jsonobj.models[prop][li][1];
+            concatvars = concatvars +  "__" + tmp;
+        };
+    };*/
+    var models = jsonobj.models;
+    RecreateDynamicTextboxes("EndTextBoxModels",models,"models");
+    var loglik = jsonobj.loglik;
+    RecreateDynamicTextboxes("EndTextBoxLoglik",loglik,"loglik");
+    var processes = jsonobj.processes;
+    RecreateDynamicTextboxes("EndTextBoxProcesses",processes,"processes");
+
+};
 
 function reloadparams(){
     return alert("tofix");
@@ -116,6 +89,9 @@ function treedisplay(){
         });
     };
 
-window.onload = paramsResults(), RecreateDynamicTextboxes();
+window.onload = assignDynTextboxes;
+
+// NOTE: ALL VARIABLES  COME FROM FLASK :
+//https://stackoverflow.com/questions/42499535/passing-a-json-object-from-flask-to-javascript
 
 

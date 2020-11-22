@@ -8,7 +8,6 @@
   <link href="https://veg.github.io/phylotree.js/phylotree.css" rel="stylesheet">
   <link href="https://veg.github.io/phylotree.js/phylotree.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -28,22 +27,22 @@
   <span hidden id="TREES">{{NWKFILEPATHS}}</span>
   <h1>bppml results</h1>
   <div id="lateral">
-    <div id="parameters">
-      <h3>Parameters</h3>
-      <!--Here paramResults will appear as defined by resphyloapp.js-->
-      <input id="childElement" type=button name=reuse value=reuse onclick="reuseparameters()">
-      <input id="childElementk" type=button name=reuse value=reuse onclick="reuseparameters()">
-      <button onclick="reloadparams()">Reload Output Parameters</button>
+    <div id="parameters" class="auto">
+      <h2>Parameters</h2>
 
       <div id="TextBoxContainer"></div>
-      <div id="EndTextBoxContainer" onload="RecreateDynamicTextboxes()">
-        <input id="childElement0"></div>
-      </div>
-
-      <!--a select files (from user local) button:-->
-
-      
-
+      <!--here textboxes with results appear dynamically -->
+      <br>
+      <h4>LOG LIKELIHOOD</h4>
+      <div id="EndTextBoxLoglik" onload="assignDynTextboxes()"></div>
+      <br>
+      <h4>MODELS</h4>
+      <div id="EndTextBoxModels" onload="assignDynTextboxes()"></div>
+      <br>
+      <h4>PROCESSES</h4>
+      <div id="EndTextBoxProcesses" onload="assignDynTextboxes()"></div>
+      <div id="" onload="assignDynTextboxes()"></div>
+      <button onclick="reloadparams()">Reload Output Parameters</button>
     </div>
 
     <div id="SubtreeRelated">

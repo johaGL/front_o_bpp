@@ -14,26 +14,3 @@
 function tired(){
     document.getElementsByTagName("BODY")[0].style.backgroundColor="orange" ;
 };
-
-
-function paramsResults(){
-    var DATASTR = document.getElementById('DATA').innerHTML;
-    var jsonobj = JSON.parse(DATASTR); //very important
-    var concatvars = " % ";
-    //note: parameters nested lists (li) are known containing only two values
-    for (let prop in jsonobj.models){
-        concatvars = concatvars + prop + "-%-";
-        for (let li in jsonobj.models[prop]){
-            tmp = jsonobj.models[prop][li][0] +"::"+ jsonobj.models[prop][li][1];
-            concatvars = concatvars +  "__" + tmp;
-        };
-    };
-    var display = document.createElement("TEXTAREA"); // https://www.w3schools.com/js/js_htmldom_nodes.asp
-    display.setAttribute("id","pulledparameters");
-    var t = document.createTextNode(concatvars); 
-    display.appendChild(t);
-    document.body.appendChild(display);
-    var papa = document.getElementById("childElementk");
-    var parentDiv = papa.parentNode;
-    parentDiv.insertBefore(display, papa); //insertAfter does not exist
-};

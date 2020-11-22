@@ -1,3 +1,8 @@
+.auto { 
+    height:auto; 
+    background : rgba(64, 113, 145, 0.534);
+} 
+
 #header { 
     height: 40px;
     background :rgba(64, 113, 145, 0.534);
@@ -12,9 +17,7 @@
     padding-left: 10px;
     margin: 6px;
     float:left;
-    width : 300px;
-    height: 500px;
-    background : rgba(64, 113, 145, 0.534);
+    width : 300px
 }
 
 
