@@ -11,7 +11,7 @@ function RecreateDynamicTextboxes(refparent,alist,categ){
             parent = refparent;
         }
         else{
-            j = i+1
+            j = i+1;
             parent = categ+j;
         }
         var display = document.createElement("TEXTAREA");
@@ -34,59 +34,59 @@ function RecreateDynamicTextboxes(refparent,alist,categ){
 
 function assignDynTextboxes(values,categ){
     var DATASTR = document.getElementById('DATA').innerHTML;
-    var jsonobj = JSON.parse(DATASTR); //very important
-    //note: parameters nested lists (li) are known containing only two values
-    /*for (let prop in jsonobj.models){
-        for (let li in jsonobj.models[prop]){
-            tmp = jsonobj.models[prop][li][0] +"::"+ jsonobj.models[prop][li][1];
-            concatvars = concatvars +  "__" + tmp;
-        };
-    };*/
-    var models = jsonobj.models;
-    RecreateDynamicTextboxes("EndTextBoxModels",models,"models");
-    var loglik = jsonobj.loglik;
-    RecreateDynamicTextboxes("EndTextBoxLoglik",loglik,"loglik");
-    var processes = jsonobj.processes;
-    RecreateDynamicTextboxes("EndTextBoxProcesses",processes,"processes");
-
+    var jsonobj = JSON.parse(DATASTR); //very importants
+    RecreateDynamicTextboxes("EndTextBoxPhylos",jsonobj.phylos,"phylos");
+    RecreateDynamicTextboxes("EndTextBoxModels",jsonobj.models,"models");
+    RecreateDynamicTextboxes("EndTextBoxLoglik",jsonobj.loglik,"loglik");
+    RecreateDynamicTextboxes("EndTextBoxProcesses",jsonobj.processes,"processes");
+    RecreateDynamicTextboxes("EndTextBoxRoots",jsonobj.roots,"roots");
+    
 };
 
-function reloadparams(){
-    return alert("tofix");
+function clearandreloadparams(){
+    $('#parameters').val('');
 };
-
 
 // == TREE STUFF
 //http://bl.ocks.org/spond/30926a292ac4f49e1c6c7d900be65f94
 
 function treedisplay(){
-    var height = 1000;
-    var width = 800;
-    //var hiddenspandatatree = document.getElementById('show2').innerHTML;
-    //var jsonobj = JSON.parse(hiddenspandatatree);
-    //var treeNewickString = jsonobj.newick;
-	
-    d3.text(treeNewickString, function(error, newick){
-        var tree = d3.layout.phylotree()
-            .svg(d3.select("#tree_display"))
-            .options({ 
-                'left-right-spacing': 'fit-to-size',
-                'top-bottom-spacing': 'fit-to-size',
-                'selectable': true,
-                'zoom':true,
-                'right-offset':1, //this fixes the prlm right side, 
-                        // but only works in d3version5 and npm
-                'left-offset':0,
-                'collapsible':false
-            }).size([height,width])
-            .node_circle_size(2);
-        tree(treeNewickString)
-            .layout();
+    var height = 500;
+    var width = 200;
+    var TEST = document.getElementById('TEST').innerHTML;
+    d3.text(TEST, function(error, newick){
+        var tree = d3.layout.phylotree().svg(d3.select("#tree_display"));
+        let branchColoring = d3.interpolateRgb("#0000FF","#FF0000"); // a color scheme for p-values
 
-        $("#layout").on("click", function(e) {
-            tree.radial($(this).prop("checked")).placenodes().update();
-            });
-        });
+      tree(TEST).traverse_and_compute ((node,datum)=>{
+             if (node.annotation) { 
+                let attribute_dict = {};
+                node.annotation.split (":").forEach ((d)=>{
+                    let tag_value = d.split ("=");
+                    if (tag_value.length == 2) {
+                        attribute_dict[tag_value[0]] = tag_value[1];
+                    }
+                });
+                node['nhx_attr'] = attribute_dict;
+             }
+         }).style_edges((element, edge)=>{
+         
+            if (edge.target['nhx_attr']) { 
+                let tags = [];    
+                for (k in edge.target['nhx_attr']) {
+                    tags.push ("<b>" + k + "</b> : " + edge.target['nhx_attr'][k]);
+                }       
+                $(d3.select(element).node()[0]).popover ({
+                    'container': 'body',
+                    'html' : true,
+                    'placement' : "left",
+                    'content' : tags.join ("<br>"),
+                    'trigger' : 'hover'
+                });
+            }
+         })
+        .layout();
+        }); 
     };
 
 window.onload = assignDynTextboxes;

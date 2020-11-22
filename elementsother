@@ -37,3 +37,76 @@ function paramsResults(){
     var parentDiv = papa.parentNode;
     parentDiv.insertBefore(display, papa); //insertAfter does not exist
 };
+
+
+   //note: parameters nested lists (li) are known containing only two values
+    /*for (let prop in jsonobj.models){
+        for (let li in jsonobj.models[prop]){
+            tmp = jsonobj.models[prop][li][0] +"::"+ jsonobj.models[prop][li][1];
+            concatvars = concatvars +  "__" + tmp;
+        };
+    };*/
+
+
+
+function treedisplay(){
+    var height = 1000;
+    var width = 800;
+    //var hiddenspandatatree = document.getElementById('show2').innerHTML;
+    //var jsonobj = JSON.parse(hiddenspandatatree);
+    //var treeNewickString = jsonobj.newick;
+	
+    d3.text(treeNewickString, function(error, newick){
+        var tree = d3.layout.phylotree()
+            .svg(d3.select("#tree_display"))
+            .options({ 
+                'left-right-spacing': 'fit-to-size',
+                'top-bottom-spacing': 'fit-to-size',
+                'selectable': true,
+                'zoom':true,
+                'right-offset':1, //this fixes the prlm right side, 
+                        // but only works in d3version5 and npm
+                'left-offset':0,
+                'collapsible':false
+            }).size([height,width])
+            .node_circle_size(2);
+        tree(treeNewickString)
+            .layout();
+
+        $("#layout").on("click", function(e) {
+            tree.radial($(this).prop("checked")).placenodes().update();
+            });
+        });
+    };
+
+    function et(t,e){var n;if(v(),(n="root"==t.name?{json:t,error:null}:"string"!=typeof t?t:"<"==t[0]?function(t){function e(t,n){t.clade&&(t.clade.forEach(e),t.children=t.clade,delete t.clade),t.original_child_order=n+1,t.branch_length&&(t.attribute=t.branch_length[0]),t.taxonomy&&(t.name=t.taxonomy[0].scientific_name[0]),t.annotation=""}var n;return i(t,function(t,r){(n=r.phyloxml.phylogeny[0].clade[0]).name="root",e(n)}),{json:n,error:null}}(t):g(t,e)).json){t;var r={};(Y=D.call(this,n.json)).forEach(t=>{if(t.name){var e=t.name.indexOf("{");if(e>-1){var n=t.name.slice(e+1,t.name.length-1);t[n]=!0,r[n]=!0,t.name=t.name.slice(0,e)}}}),V=Object.keys(r)}else Y=[];return et.placenodes(),z=et.links(Y),et}
+
++++++++++++++++++++++++++++
+this worked well:
+============================
+function treedisplay(){
+    var height = 1000;
+    var width = 800;
+    var TREEFILEPATH = "(a,(b{TAG},(c{TAG},d{ANOTHERTAG})))";
+    d3.text(TREEFILEPATH, function(error, newick){
+        var tree = d3.layout.phylotree() 
+            .svg(d3.select("#tree_display"))
+            .options({ 
+                'left-right-spacing': 'fit-to-size',
+                'top-bottom-spacing': 'fit-to-size',
+                'selectable': true,
+                'zoom':true,
+                'right-offset':1, //this fixes the prlm right side, 
+                        // but only works in d3version5 and npm
+                'left-offset':0,
+                'collapsible':false
+            }).size([height,width])
+            .node_circle_size(2);
+        tree(TREEFILEPATH)
+            .layout();
+
+        $("#layout").on("click", function(e) {
+            tree.radial($(this).prop("checked")).placenodes().update();
+            });
+        });
+    };

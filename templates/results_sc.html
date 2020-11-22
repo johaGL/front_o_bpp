@@ -25,24 +25,32 @@
 <body id="body" >
   <span hidden id="DATA">{{DATA}}</span>
   <span hidden id="TREES">{{NWKFILEPATHS}}</span>
+  <span hidden id="TEST">{{TEST}}</span>
   <h1>bppml results</h1>
   <div id="lateral">
     <div id="parameters" class="auto">
       <h2>Parameters</h2>
-
+      
       <div id="TextBoxContainer"></div>
-      <!--here textboxes with results appear dynamically -->
+      <!-- textboxes with results appear dynamically -->
       <br>
       <h4>LOG LIKELIHOOD</h4>
-      <div id="EndTextBoxLoglik" onload="assignDynTextboxes()"></div>
+      <div id="EndTextBoxLoglik" ></div>
       <br>
-      <h4>MODELS</h4>
-      <div id="EndTextBoxModels" onload="assignDynTextboxes()"></div>
+      <h4>PHYLOGENETIC TREE(S) GIVEN AS INPUT</h4>
+      <div id="EndTextBoxPhylos" ></div>
       <br>
-      <h4>PROCESSES</h4>
-      <div id="EndTextBoxProcesses" onload="assignDynTextboxes()"></div>
-      <div id="" onload="assignDynTextboxes()"></div>
-      <button onclick="reloadparams()">Reload Output Parameters</button>
+      <h4>MODEL(S)</h4>
+      <h5>And their respective parameters ex:
+        (M1_HKY85__kappa means "kappa parameter belonging to model1 which is NKY85")</h5>
+      <div id="EndTextBoxModels" ></div>
+      <br>
+      <h4>PROCESS(ES)</h4>
+      <div id="EndTextBoxProcesses" ></div>
+      <h4>ROOT(S)</h4>
+      <div id="EndTextBoxRoots" ></div>
+      <div id="EndTextBoxContainer" onload="assignDynTextboxes()"></div>
+      <button onclick="clearandreloadparams()">Reload Output Parameters</button>
     </div>
 
     <div id="SubtreeRelated">

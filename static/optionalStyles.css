@@ -9,17 +9,17 @@
     color : rgb(252, 252, 252);
 }
 
-#lateral{
+#lateral {
     float : left;
+    padding-left: 20px;
+    margin: 20px
 }
 
-#parameters{
-    padding-left: 10px;
-    margin: 6px;
-    float:left;
-    width : 300px
+#parameters {
+    padding-left: 32px;
+    margin: 20px;
+    float: left
 }
-
 
 #footer {
     border-top: 1px solid #aaa;
