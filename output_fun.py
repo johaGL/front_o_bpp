@@ -114,12 +114,12 @@ if __name__ == '__main__':
     print(cwd)
     #data = stringlikejson("RESULTS","user001")
 	#datastr = str(dictio2json(data)) 
-    locnewresu = "user01multiProcNHX_Res_001/"
+    locnewresu = "user01multiProcNHX_Res_001/"   
     print("")
     print(formattingparams(getparampaths(locnewresu)))
     newickpaths = getnewickpaths(locnewresu)
     strtest = ''.join(open(newickpaths[0], 'rt').readlines())
-    print(strtest)
+    print(newickpaths)
     
 
 
