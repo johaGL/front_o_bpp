@@ -79,7 +79,6 @@ function treedisplay(){
         });
     };
 
-    function et(t,e){var n;if(v(),(n="root"==t.name?{json:t,error:null}:"string"!=typeof t?t:"<"==t[0]?function(t){function e(t,n){t.clade&&(t.clade.forEach(e),t.children=t.clade,delete t.clade),t.original_child_order=n+1,t.branch_length&&(t.attribute=t.branch_length[0]),t.taxonomy&&(t.name=t.taxonomy[0].scientific_name[0]),t.annotation=""}var n;return i(t,function(t,r){(n=r.phyloxml.phylogeny[0].clade[0]).name="root",e(n)}),{json:n,error:null}}(t):g(t,e)).json){t;var r={};(Y=D.call(this,n.json)).forEach(t=>{if(t.name){var e=t.name.indexOf("{");if(e>-1){var n=t.name.slice(e+1,t.name.length-1);t[n]=!0,r[n]=!0,t.name=t.name.slice(0,e)}}}),V=Object.keys(r)}else Y=[];return et.placenodes(),z=et.links(Y),et}
 
 +++++++++++++++++++++++++++
 this worked well:
@@ -110,3 +109,18 @@ function treedisplay(){
             });
         });
     };
+
+
+
+    ----------------------
+    css
+    +++++++++++++++++++++++
+
+    #lateral {
+    float : left;
+    padding: 1px;
+
+    margin: 1px;
+        width: 200px;
+    overflow : hidden
+}

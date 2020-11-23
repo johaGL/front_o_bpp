@@ -1,24 +1,24 @@
-.auto { 
-    height:auto; 
-    background : rgba(64, 113, 145, 0.534);
-} 
-
 #header { 
     height: 40px;
     background :rgba(64, 113, 145, 0.534);
     color : rgb(252, 252, 252);
 }
 
-#lateral {
-    float : left;
-    padding-left: 20px;
-    margin: 20px
+#parameters {
+    height : auto;
+    float: left;
+    padding : 15px;
+    margin : 10px;
+    width: 25%;
+    background : rgba(64, 113, 145, 0.534);
+    overflow: hidden
 }
 
-#parameters {
-    padding-left: 32px;
-    margin: 20px;
-    float: left
+#treeplayground {
+    height : auto;
+    float: left;
+    width : 65%
+
 }
 
 #footer {
@@ -27,8 +27,11 @@
     color: rgb(85, 8, 8);
     font-size: 18px;
     padding: 0 0 10px 0;
-    margin-top: 20px;
-    background :rgba(64, 113, 145, 0.534);
+    background :rgba(64, 113, 145, 0.534); 
+    clear: both;
+    position: relative;
+    height: 40px;
+    margin-top: -100px;
     }
 
 ul {
@@ -62,3 +65,7 @@ li a:hover:not(.active) {
 .active {
     background-color: #4CAF50;
     } 
+.limit{
+        width:250px;
+        word-wrap: break-word;
+    }

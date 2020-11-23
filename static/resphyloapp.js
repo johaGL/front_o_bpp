@@ -51,14 +51,20 @@ function clearandreloadparams(){
 //http://bl.ocks.org/spond/30926a292ac4f49e1c6c7d900be65f94
 
 function treedisplay(){
-    var height = 500;
-    var width = 200;
+    var height = 700;
+    var width = 300;
     var TEST = document.getElementById('TEST').innerHTML;
     d3.text(TEST, function(error, newick){
-        var tree = d3.layout.phylotree().svg(d3.select("#tree_display"));
-        let branchColoring = d3.interpolateRgb("#0000FF","#FF0000"); // a color scheme for p-values
+        var tree = d3.layout.phylotree()
+            .svg(d3.select("#tree_display"))
+            .options({
+                'zoom' : true
+            })
+            .size([height,width]);
 
-      tree(TEST).traverse_and_compute ((node,datum)=>{
+        let branchColoring = d3.interpolateRgb("#0000FF","#FF0000"); // a color scheme for p-values
+        // spond credits : display parameters each branch
+        tree(TEST).traverse_and_compute ((node,datum)=>{
              if (node.annotation) { 
                 let attribute_dict = {};
                 node.annotation.split (":").forEach ((d)=>{
@@ -86,9 +92,14 @@ function treedisplay(){
             }
          })
         .layout();
+        $("#layout").on("click", function(e) {
+            tree.radial($(this).prop("checked")).placenodes().update();
+            });
+         
         }); 
     };
 
+   
 window.onload = assignDynTextboxes;
 
 // NOTE: ALL VARIABLES  COME FROM FLASK :

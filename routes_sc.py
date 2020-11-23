@@ -19,7 +19,7 @@ def results_sc():
 		"roots" : [["none","not given for this model"]],\
 		"processes" : [["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"]]}'
 	nwkpaths = ["path1", "onsaitrecupererautantdepathsarbresresultats"]
-	strtest = ''.join(open('test/treemine.nhx','rt').readlines())
+	strtest = ''.join(open('test/treemine.dnd_1','rt').readlines())
 	return render_template('results_sc.html', title = 'results', DATA=data, NWKFILEPATHS = nwkpaths, TEST=strtest)
 	if request.method == 'POST':
 		return "in progress++"

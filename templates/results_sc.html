@@ -27,21 +27,20 @@
   <span hidden id="TREES">{{NWKFILEPATHS}}</span>
   <span hidden id="TEST">{{TEST}}</span>
   <h1>bppml results</h1>
-  <div id="lateral">
-    <div id="parameters" class="auto">
-      <h2>Parameters</h2>
-      
+
+  <div id="parameters">
+      <h2>Parameters</h2> 
       <div id="TextBoxContainer"></div>
       <!-- textboxes with results appear dynamically -->
       <br>
       <h4>LOG LIKELIHOOD</h4>
       <div id="EndTextBoxLoglik" ></div>
       <br>
-      <h4>PHYLOGENETIC TREE(S) GIVEN AS INPUT</h4>
+      <h4>PHYLOGENETIC TREE(S)</h4>
       <div id="EndTextBoxPhylos" ></div>
       <br>
       <h4>MODEL(S)</h4>
-      <h5>And their respective parameters ex:
+      <h5 class="limit">And their respective parameters ex:
         (M1_HKY85__kappa means "kappa parameter belonging to model1 which is NKY85")</h5>
       <div id="EndTextBoxModels" ></div>
       <br>
@@ -51,7 +50,7 @@
       <div id="EndTextBoxRoots" ></div>
       <div id="EndTextBoxContainer" onload="assignDynTextboxes()"></div>
       <button onclick="clearandreloadparams()">Reload Output Parameters</button>
-    </div>
+  </div>
 
     <div id="SubtreeRelated">
         <h4>SubTree Section (Newick)</h4>
@@ -59,17 +58,13 @@
           should show up
           in newik
         </p>
-        <p> here the subtree selection 
-            should show up
-            in newik
-          </p>
     </div>
-  </div> <!--end div lateral-->
-  <div id="blankdivision" width="5" height="5"></div>
 
-  <div id=treeplayground  width="1800" height="1200" >
+  <div id="blankdivision" width="3" height="3"></div>
+
+  <div id=treeplayground >
     <form>
-        <input type="button" name="showtree" value="showtree" onclick="treedisplay()">
+        <input type="button" name="showtree" value="showtreeNOW" onclick="treedisplay()">
         <label>Radial layout</label>
         <input type="checkbox" id="layout"  />
     </form>
