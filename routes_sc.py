@@ -12,15 +12,13 @@ app = Flask(__name__)
 @app.route('/results_sc', methods = ['POST', 'GET'] )
 def results_sc(): 
 	#data = request.args['data']
-	data = '{"loglik" : [["value", "-3216.54"]],\
-		"phylos" : [["phy1", "singleblahblah"]],\
-		"models": [["m1_theta1","65656"],\
-			 ["m2_kappa" ,"9898989"]],\
-		"roots" : [["none","not given for this model"]],\
-		"processes" : [["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"],["pr1=Nonhomog" , "wwwwww"]]}'
-	nwkpaths = ["path1", "onsaitrecupererautantdepathsarbresresultats"]
-	strtest = ''.join(open('test/treemine.dnd_1','rt').readlines())
-	return render_template('results_sc.html', title = 'results', DATA=data, NWKFILEPATHS = nwkpaths, TEST=strtest)
+	userfolder = "user01multiProcNHX_001/"
+	data = formattingparams(getparampaths(userfolder)) #json-like string, it works ok downstream
+	newickpaths = getnewickpaths(userfolder) # a list of newick files in this folder
+	strtest = ''.join(open(newickpaths[0], 'rt').readlines())
+	print(strtest)
+	#strtest = ''.join(open('test/treemine.dnd_1','rt').readlines())
+	return render_template('results_sc.html', title = 'results', DATA=data, NWKFILEPATHS = newickpaths, TEST=strtest)
 	if request.method == 'POST':
 		return "in progress++"
 		
