@@ -78,7 +78,10 @@ function treedisplay(){
             });
         });
     };
++++++++++++++++++++++++++++++++++
+other possibility to call data into web:
 
+ <span hidden id="DATA" value={{DATA}}></span>
 
 +++++++++++++++++++++++++++
 this worked well:
@@ -110,6 +113,8 @@ function treedisplay(){
         });
     };
 
+	
+
 
 
     ----------------------
@@ -124,3 +129,10 @@ function treedisplay(){
         width: 200px;
     overflow : hidden
 }
+
+
+
+!!!!!  add to routes:  	
+	
+    #userfolder = request.args['userfolder']
+
