@@ -11,8 +11,9 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/results_sc', methods = ['POST', 'GET'] )
 def results_sc(): 
-	#data = request.args['data']
-	userfolder = "user01multiProcNHX_Res_001/"
+	#userfolder = request.args['userfolder']
+	#userfolder = "user01multiProcNHX_Res_001/"
+	userfolder = "testTreeParams/"
 	data = formattingparams(getparampaths(userfolder)) #json-like string, it works ok downstream
 	newickpaths = getnewickpaths(userfolder) # a list of newick files in this folder
 	strtest = ''.join(open(newickpaths[0], 'rt').readlines())

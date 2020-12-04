@@ -3,6 +3,29 @@
  <span hidden id="show2">{{data}}</span>
  existing in results.html
 */
+function setcheckboxesstatus(){
+    var inputs = document.getElementsByTagName("input");
+    for(var i=0; i<inputs.length; i++){
+    if(inputs[i].getAttribute('type')=='checkbox'){
+        input[i].checked = false; //this sets all checkboxes as unchecked
+    };
+}};
+
+function deduplicatestring(dubiousstr){
+	var fullspan = dubiousstr.length;
+    if ( fullspan % 2 === 0){ 
+        var m = fullspan/2;
+        var str1 = dubiousstr.slice(0,m);
+        var str2 = dubiousstr.slice(m,fullspan);
+        if (str1 === str2){
+            return str1;
+        } else { return dubiousstr;
+        }		
+    }else{
+        return dubiousstr;
+    }
+};
+
 function RecreateDynamicTextboxes(refparent,alist,categ){
     for (var i=(alist.length)-1; i>=0; i--) {
         var parent = "";
@@ -50,9 +73,17 @@ function clearandreloadparams(){
 // == TREE STUFF
 //http://bl.ocks.org/spond/30926a292ac4f49e1c6c7d900be65f94
 
+
+function my_menu_title(node){
+    return "Copy Subtree as Newick";
+};
+
+
+//this function contains tree(TEST).[...] which controls attr/actions
+//function treedisplay(height,width) ===> TODO:  must be done !!!
 function treedisplay(){
     var height = 700;
-    var width = 300;
+    var width = 500;
     var TEST = document.getElementById('TEST').innerHTML;
     d3.text(TEST, function(error, newick){
         var tree = d3.layout.phylotree()
@@ -62,47 +93,43 @@ function treedisplay(){
             })
             .size([height,width]);
 
-        let branchColoring = d3.interpolateRgb("#0000FF","#FF0000"); // a color scheme for p-values
-        // spond credits : display parameters each branch
-        tree(TEST).traverse_and_compute ((node,datum)=>{
-             if (node.annotation) { 
-                let attribute_dict = {};
-                node.annotation.split (":").forEach ((d)=>{
-                    let tag_value = d.split ("=");
-                    if (tag_value.length == 2) {
-                        attribute_dict[tag_value[0]] = tag_value[1];
-                    }
-                });
-                node['nhx_attr'] = attribute_dict;
-             }
-         }).style_edges((element, edge)=>{
-         
-            if (edge.target['nhx_attr']) { 
-                let tags = [];    
-                for (k in edge.target['nhx_attr']) {
-                    tags.push ("<b>" + k + "</b> : " + edge.target['nhx_attr'][k]);
-                }       
-                $(d3.select(element).node()[0]).popover ({
-                    'container': 'body',
-                    'html' : true,
-                    'placement' : "left",
-                    'content' : tags.join ("<br>"),
-                    'trigger' : 'hover'
-                });
-            }
-         })
-        .layout();
+        tree(TEST).layout();
+
         $("#layout").on("click", function(e) {
             tree.radial($(this).prop("checked")).placenodes().update();
-            });
-         
-        }); 
+            });//end tree(TEST) main function containing attributes and actions
+        
+        function fix(subtreenewick){
+            let newstr = subtreenewick
+            tree.get_nodes()
+                .filter((l)=>d3.layout.phylotree.is_leafnode(l))
+                .forEach(function(leaf){
+                    //deduplucate at all possible levels ! 
+                    let tmp = leaf.name; //at the level of get_nodes()
+                    leaf.name = deduplicatestring(tmp);
+                    //at the level of newick format
+                    let res = newstr.replace(tmp+tmp, leaf.name);
+                    newstr = res;
+                });
+            return newstr;
+        };
+      
+        tree.get_nodes()
+        .filter((n)=> !d3.layout.phylotree.is_leafnode (n))
+            .forEach(function(tree_node){
+                d3.layout.phylotree.add_custom_menu(tree_node, my_menu_title,
+                function()  {
+                        let save_root = tree.get_nodes()[0];
+                        tree.get_nodes()[0] = tree_node;
+                        let newicksubtree = tree.get_newick();
+                        d3.select("#newick_holder").text(fix(newicksubtree));
+                        tree.get_nodes()[0] = save_root;
+                    }
+                    ,(n)=>!d3.layout.phylotree.is_leafnode (n)
+            );//end addcustom menu
+        });//end select subtree 
+        });//end d3.text 
     };
 
    
-window.onload = assignDynTextboxes;
-
-// NOTE: ALL VARIABLES  COME FROM FLASK :
-//https://stackoverflow.com/questions/42499535/passing-a-json-object-from-flask-to-javascript
-
-
+window.onload = assignDynTextboxes,setcheckboxesstatus;
