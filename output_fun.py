@@ -31,7 +31,7 @@ def formattingparams(listofparamsfiles):
     """  OUTPUT is string as follows :
 '{"loglik" : [["value", "-3216.54"]],\
 		"phylos" : [["phy1", "...."]],\
-		"models": [["M1_theta1","...."],\
+		"models": {"model1_T92" : [["M1_theta1","...."],\
 			 ["..." ,"..."]],\
 		"roots" : [["none","not given for this model"]],\
 		"processes" : [["pr1=Nonhomog" , "..."], ..."""
@@ -44,37 +44,47 @@ def formattingparams(listofparamsfiles):
         d["phylos"] = []
         d["roots"] = []
         d["processes"] = []
-        d["models"] = []
+        d["models"] = {}
         for elemline in L:
             if 'Loglikelihood' in elemline:
                 d["loglik"] = [["value", elemline.split('=')[1]]]
             elif 'phylo' and 'data' in elemline:
                 tmp = elemline.split("(")
-                d["phylos"].append([tmp[0], tmp[1]])
+                d["phylos"].append([tmp[0], tmp[1].strip(")")])
             elif 'process' and 'id' in elemline:
                 tmp = elemline.split("),")
-                d["processes"].append([ tmp[0].split('=(')[0], tmp[0].split('=(')[1]])
+                prdsc_init_l = tmp[0].split('=(')[0].split("(")
+                tt = prdsc_init_l[0].split("=")
+                d["processes"].append([tt[0],tt[1]])
+                d["processes"].append([ prdsc_init_l[1], tmp[0].split('=(')[1]])
+                #d["processes"].append([ tmp[0].split('=(')[0], tmp[0].split('=(')[1]])
                 d["processes"].append([tmp[1].split('=(')[0],tmp[1].split('=(')[1]])
-                d["processes"].append(["tree/rate/root_freq",tmp[2]])
+                d["processes"].append(["tree/rate/root_freq",tmp[2].strip(")")])
             elif 'model' in elemline:
+                tmpdc = {}
                 if not 'process' in elemline:
                     tmp = elemline.replace(")","").split("(")
-                    mod = tmp[0]+"__"
+                    modlabel = tmp[0]
                     modelparams = tmp[1].split(",")
+                    prepnumname = modlabel.replace("model","").split("=")
+                    numbermod = prepnumname[0] #p.ex: '2'
+                    namemod = prepnumname[1]#p.ex: "T92"
+                    mykey = "model"+numbermod+"_"+namemod
+                    tmpdc[mykey] = []
                     for parval in modelparams:
                         lpv = parval.split("=")
-                        d["models"].append([mod+lpv[0],lpv[1]])
+                        value = lpv[1]
+                        tmpdc[mykey].append([namemod+"_"+lpv[0]+"_"+str(numbermod), value])
+                d["models"].update(tmpdc)
             elif 'root_freq' and 'values' in elemline:
                 tmp = elemline.split("=(")
-                d["roots"].append([tmp[0],tmp[1]])
+                d["roots"].append([tmp[0].replace("("," "),tmp[1].strip(")")])
         if d["roots"] == []:
             d["roots"].append(["none","not given for this model"])
         print(d["processes"])
         return str(d).replace("'",'"')
     else:
         return "ERROR several parameters.txt files found, expected 1" 
-
-
 
 def filetostring(dir_fullpath, regexpat):
     f_given = glob.glob(os.path.join(dir_fullpath,regexpat))
@@ -104,9 +114,7 @@ def getjustnewick(resdir,userdir):
     strinwk = filetostring(Upath, "*.dnd")
     return strinwk
 
-#def dictio2json(mydictio):
-#    myjson = json.dumps(str(mydictio),sort_keys=True)
-#    return myjson
+
 
 if __name__ == '__main__':
     dirresu = "RESULTS/"

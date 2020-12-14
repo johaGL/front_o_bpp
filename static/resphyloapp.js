@@ -6,7 +6,7 @@
 function setcheckboxesstatus(){
     var inputs = document.getElementsByTagName("input");
     for(var i=0; i<inputs.length; i++){
-    if(inputs[i].getAttribute('type')=='checkbox'){
+    if(inputs[i].getAttribute('type')==='checkbox'){
         input[i].checked = false; //this sets all checkboxes as unchecked
     };
 }};
@@ -26,11 +26,12 @@ function deduplicatestring(dubiousstr){
     }
 };
 
+
 function RecreateDynamicTextboxes(refparent,alist,categ){
     for (var i=(alist.length)-1; i>=0; i--) {
         var parent = "";
         tmp = alist[i];
-        if (i == (alist.length)-1 ){
+        if (i === (alist.length)-1 ){
             parent = refparent;
         }
         else{
@@ -55,20 +56,68 @@ function RecreateDynamicTextboxes(refparent,alist,categ){
     };  
 }; 
 
+
+
+function RecreateDynamicTextboxesB(container,alist,categ){
+    for (var i=0; i<alist.length; i++) {
+        tmp = alist[i];
+        parent = tmp[0];
+        var display = document.createElement("TEXTAREA");
+        var label = document.createElement("label");
+        display.setAttribute("id", parent+categ);
+        display.style.height = "22px";
+        label.setAttribute("id",parent+categ);
+        var t = document.createTextNode(tmp[1]); //value
+        var l = document.createTextNode(parent+":");
+        display.appendChild(t);
+        label.appendChild(l);
+        $(display).appendTo(container);
+        var papabox = document.getElementById(parent+categ);
+        var parentDivbox = papabox.parentNode;
+        parentDivbox.insertBefore(label,papabox);
+    };  
+}; 
+
 function assignDynTextboxes(values,categ){
     var DATASTR = document.getElementById('DATA').innerHTML;
-    var jsonobj = JSON.parse(DATASTR); //very importants
-    RecreateDynamicTextboxes("EndTextBoxPhylos",jsonobj.phylos,"phylos");
-    RecreateDynamicTextboxes("EndTextBoxModels",jsonobj.models,"models");
-    RecreateDynamicTextboxes("EndTextBoxLoglik",jsonobj.loglik,"loglik");
-    RecreateDynamicTextboxes("EndTextBoxProcesses",jsonobj.processes,"processes");
-    RecreateDynamicTextboxes("EndTextBoxRoots",jsonobj.roots,"roots");
-    
+    var jsonobj = JSON.parse(DATASTR); //very important
+    RecreateDynamicTextboxesB("#LOGLIK",jsonobj.loglik,"loglik");
+    RecreateDynamicTextboxesB("#PHYLOS",jsonobj.phylos,"phylos");
+    //add model subsections in accordion style:
+    k = 0;
+    for (var key in jsonobj.models){
+        let tmpstr = '<input type="radio" id="'+"M"+k+'" checked aria-hidden="true" name="accordion">';
+        $(tmpstr).appendTo("#MODELS");
+        let tmpstrb = '<label for="'+"M"+k+'" aria-hidden="true">'+key+'</label>';
+        $(tmpstrb).appendTo("#MODELS");
+        let mystr = '<div id='+key+'></div>';
+        //then add all parameters belonging i model 
+        $(mystr).appendTo("#MODELS");
+        console.log(jsonobj.models[key]);
+        RecreateDynamicTextboxesB("#"+key,jsonobj.models[key],"models");
+        k++;
+    };
+    RecreateDynamicTextboxesB("#PROCESSES",jsonobj.processes,"processes");
+    RecreateDynamicTextboxesB("#ROOTS",jsonobj.roots,"roots");
+
 };
 
 function clearandreloadparams(){
     $('#parameters').val('');
 };
+/*for (let i =0;i<stupid.length;i++){
+        //first add i model name :
+        let tmpstr = '<input type="radio" id="'+stupid[i]+'" checked aria-hidden="true" name="accordion">';
+        $(tmpstr).appendTo("#MODELS");
+        let tmpstrb = '<label for="'+stupid[i]+'" aria-hidden="true">'+stupid[i]+'</label>';
+        $(tmpstrb).appendTo("#MODELS");
+        let NAMEDIV = stupid[i]+"_sub"+i
+        let mystr = '<div id='+NAMEDIV+'></div>';
+        //then add all parameters belonging i model 
+        $(mystr).appendTo("#MODELS");
+        RecreateDynamicTextboxesB("#"+NAMEDIV,jsonobj.models,"models");
+
+    };*/
 
 // == TREE STUFF
 //http://bl.ocks.org/spond/30926a292ac4f49e1c6c7d900be65f94
