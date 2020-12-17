@@ -57,7 +57,6 @@ function RecreateDynamicTextboxes(refparent,alist,categ){
 }; 
 
 
-
 function RecreateDynamicTextboxesB(container,alist,categ){
     for (var i=0; i<alist.length; i++) {
         tmp = alist[i];
@@ -84,7 +83,7 @@ function assignDynTextboxes(values,categ){
     RecreateDynamicTextboxesB("#LOGLIK",jsonobj.loglik,"loglik");
     RecreateDynamicTextboxesB("#PHYLOS",jsonobj.phylos,"phylos");
     //add model subsections in accordion style:
-    k = 0;
+    let k = 0;
     for (var key in jsonobj.models){
         let tmpstr = '<input type="radio" id="'+"M"+k+'" checked aria-hidden="true" name="accordion">';
         $(tmpstr).appendTo("#MODELS");
@@ -93,48 +92,62 @@ function assignDynTextboxes(values,categ){
         let mystr = '<div id='+key+'></div>';
         //then add all parameters belonging i model 
         $(mystr).appendTo("#MODELS");
-        console.log(jsonobj.models[key]);
         RecreateDynamicTextboxesB("#"+key,jsonobj.models[key],"models");
         k++;
     };
-    RecreateDynamicTextboxesB("#PROCESSES",jsonobj.processes,"processes");
+    let j = 0;
+    for (var key in jsonobj.processes){;
+        let tmpstr = '<input type="radio" id="'+"P"+j+'" checked aria-hidden="true" name="accordion">';
+        $(tmpstr).appendTo("#PROCESSES");
+        let tmpstrb = '<label for="'+"P"+j+'" aria-hidden="true">'+key+'</label>';
+        $(tmpstrb).appendTo("#PROCESSES");
+        let mystr = '<div id='+key+'></div>';
+        $(mystr).appendTo("#PROCESSES");
+        RecreateDynamicTextboxesB("#"+key,jsonobj.processes[key],"models");
+        j++;
+    }
+    //RecreateDynamicTextboxesB("#PROCESSES",jsonobj.processes,"processes");
     RecreateDynamicTextboxesB("#ROOTS",jsonobj.roots,"roots");
-
 };
 
 function clearandreloadparams(){
     $('#parameters').val('');
 };
-/*for (let i =0;i<stupid.length;i++){
-        //first add i model name :
-        let tmpstr = '<input type="radio" id="'+stupid[i]+'" checked aria-hidden="true" name="accordion">';
-        $(tmpstr).appendTo("#MODELS");
-        let tmpstrb = '<label for="'+stupid[i]+'" aria-hidden="true">'+stupid[i]+'</label>';
-        $(tmpstrb).appendTo("#MODELS");
-        let NAMEDIV = stupid[i]+"_sub"+i
-        let mystr = '<div id='+NAMEDIV+'></div>';
-        //then add all parameters belonging i model 
-        $(mystr).appendTo("#MODELS");
-        RecreateDynamicTextboxesB("#"+NAMEDIV,jsonobj.models,"models");
 
-    };*/
 
 // == TREE STUFF
 //http://bl.ocks.org/spond/30926a292ac4f49e1c6c7d900be65f94
 
 
+function treebuttons(){
+    var THETREES = document.getElementById("THETREES").innerHTML;
+    var jstrees = JSON.parse(THETREES)
+    //buttonContainer = document.getElementById("treebuttonscontainer");
+    //is an array of tuples ['filename', ASTRING_IN_NEWICK ]
+    for (let i=0;i<jstrees.trees.length;i++){
+        newButton = document.createElement('input');
+        newButton.type = 'button';
+        newButton.value = jstrees.trees[i][0];
+        newButton.id = jstrees.trees[i][0];
+        newButton.onclick = function () {
+            //alert('very easy here to make function to display tree !!!! You pressed '+this.id);
+            treedisplay(jstrees.trees[i][1]);//the second elem of the tuple is tree
+          };
+        //buttonContainer.appendChild(newButton);
+        $(newButton).appendTo("#treebuttonscontainer");
+    }
+}
+
 function my_menu_title(node){
     return "Copy Subtree as Newick";
 };
-
-
-//this function contains tree(TEST).[...] which controls attr/actions
+//this function contains tree(ATREE).[...] which controls attr/actions
 //function treedisplay(height,width) ===> TODO:  must be done !!!
-function treedisplay(){
+function treedisplay(ATREE){
     var height = 700;
     var width = 500;
-    var TEST = document.getElementById('TEST').innerHTML;
-    d3.text(TEST, function(error, newick){
+    //var ATREE = document.getElementById('ATREE').innerHTML;
+    d3.text(ATREE, function(error, newick){
         var tree = d3.layout.phylotree()
             .svg(d3.select("#tree_display"))
             .options({
@@ -142,11 +155,11 @@ function treedisplay(){
             })
             .size([height,width]);
 
-        tree(TEST).layout();
+        tree(ATREE).layout();
 
         $("#layout").on("click", function(e) {
             tree.radial($(this).prop("checked")).placenodes().update();
-            });//end tree(TEST) main function containing attributes and actions
+            });//end tree(ATREE) main function containing attributes and actions
         
         function fix(subtreenewick){
             let newstr = subtreenewick
@@ -181,4 +194,4 @@ function treedisplay(){
     };
 
    
-window.onload = assignDynTextboxes,setcheckboxesstatus;
+window.onload = assignDynTextboxes, treebuttons, setcheckboxesstatus;

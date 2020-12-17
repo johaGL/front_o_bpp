@@ -36,7 +36,6 @@ def formattingparams(listofparamsfiles):
 '{"loglik" : [["value", "-3216.54"]],\
 		"phylos" : [["phy1", "...."]],\
 		"models": {"model1_T92" : [["M1_theta1","...."],\
-			 ["..." ,"..."]],\
 		"roots" : [["none","not given for this model"]],\
 		"processes" : [["pr1=Nonhomog" , "..."], ..."""
     """attention: only double quotes (")  
@@ -47,7 +46,7 @@ def formattingparams(listofparamsfiles):
         d = {}
         d["phylos"] = []
         d["roots"] = []
-        d["processes"] = []
+        d["processes"] = {}
         d["models"] = {}
         for elemline in L:
             if 'Loglikelihood' in elemline:
@@ -56,14 +55,17 @@ def formattingparams(listofparamsfiles):
                 tmp = elemline.split("(")
                 d["phylos"].append([tmp[0], tmp[1].strip(")")])
             elif 'process' and 'id' in elemline:
+                prdc = {}
                 tmp = elemline.split("),")
                 prdsc_init_l = tmp[0].split('=(')[0].split("(")
-                tt = prdsc_init_l[0].split("=")
-                d["processes"].append([tt[0],tt[1]])
-                d["processes"].append([ prdsc_init_l[1], tmp[0].split('=(')[1]])
+                tt = prdsc_init_l[0].replace("=","_")
+                sfx = tt.replace("process","").split("_")[0]
+                prdc[tt] = []
+                prdc[tt].append([ prdsc_init_l[1]+sfx, tmp[0].split('=(')[1]])
                 #d["processes"].append([ tmp[0].split('=(')[0], tmp[0].split('=(')[1]])
-                d["processes"].append([tmp[1].split('=(')[0],tmp[1].split('=(')[1]])
-                d["processes"].append(["tree/rate/root_freq",tmp[2].strip(")")])
+                prdc[tt].append([tmp[1].split('=(')[0]+sfx, tmp[1].split('=(')[1]])
+                prdc[tt].append(["tree/rate/root_freq"+sfx, tmp[2].strip(")")])
+                d["processes"].update(prdc)
             elif 'model' in elemline:
                 tmpdc = {}
                 if not 'process' in elemline:
@@ -82,7 +84,7 @@ def formattingparams(listofparamsfiles):
                 d["models"].update(tmpdc)
             elif 'root_freq' and 'values' in elemline:
                 tmp = elemline.split("=(")
-                d["roots"].append([tmp[0].replace("("," "),tmp[1].strip(")")])
+                d["roots"].append([tmp[0].replace("("," "), tmp[1].strip(")")])
         if d["roots"] == []:
             d["roots"].append(["none","not given for this model"])
         print(d["processes"])
@@ -120,8 +122,6 @@ def getBranchesProfile(filepath):
                 else:
                     dico["branchestree_"+suffix][int(name)] = bottom[i]
         print(dico)  
-        print(sorted(dico['branchestree_1'].keys()))
-        print(sorted(dico['branchestree_2'].keys()))
         return dico
     except:
         print("unable to extract branches profile")

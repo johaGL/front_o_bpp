@@ -12,14 +12,21 @@ app = Flask(__name__)
 @app.route('/results_sc', methods = ['POST', 'GET'] )
 def results_sc(): 
 	#userfolder = request.args['userfolder']
-	#userfolder = "user01multiProcNHX_Res_001/"
+	userfolder = "user01multiProcNHX_Res_001/"
 	#userfolder = "testTreeParams/"
-	userfolder ="multiData_Res/" 
+	#userfolder ="multiData_Res/" 
 	data = formattingparams(getparampaths(userfolder)) #json-like string, it works ok downstream
 	newickpaths = getnewickpaths(userfolder) # a list of newick files in this folder
-	strtest = ''.join(open(newickpaths[0], 'rt').readlines())
+	tmptrees = []
+	for filepath in newickpaths:
+		name = filepath.split("/")[-1]
+		newick = ''.join(open(filepath, 'rt').readlines())
+		tmptrees.append([name,newick])
+		#strtest = ''.join(open(newickpaths[0], 'rt').readlines())
+	thetrees = '{"trees": '+str(tmptrees).replace("'",'"')+"}"
+	print(type(thetrees))
 	#strtest = ''.join(open('testTreeParams/SPOND.dnd_1','rt').readlines())
-	return render_template('results_sc.html', title = 'results', DATA=data,  TEST=strtest)
+	return render_template('results_sc.html', title = 'results', DATA=data, THETREES=thetrees)
 	if request.method == 'POST':
 		return "in progress++"
 		

@@ -25,7 +25,7 @@
 <!--body id="body" onload=paramsResults()-->
 <body id="body" >
   <span hidden id="DATA">{{DATA}}</span>
-  <span hidden id="TEST">{{TEST}}</span>
+  <span hidden id="THETREES">{{THETREES}}</span>
   <h1>bppml results</h1>
 
   <div id="parameters">
@@ -62,7 +62,8 @@
 
   <div id=treeplayground >
     <form>
-        <input type="button" name="showtree" value="showtreeNOW" onclick="treedisplay()">
+        <h5>Click on one of the trees to visualize it</h5>
+        <div id=treebuttonscontainer onload="treebuttons()"></div>
         <label>Radial layout</label>
         <input type="checkbox" id="layout"  />
     </form>
