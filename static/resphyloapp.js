@@ -86,25 +86,33 @@ function assignDynTextboxes(values,categ){
     //add model subsections in collapse style:
     let k = 0;
     for (var key in jsonobj.models){
-        let tmpstr = '<button class="accordion" id="'+"M"+k+'" /button>';
-        $(tmpstr).appendTo("#MODELS");
-        let tmpstrb = '<label for="'+"M"+k+'">'+key+'</label>';
-        $(tmpstrb).appendTo("#MODELS");
-        let mystr = '<div id='+key+' class="panel"></div>';
+        let deftag =  '<div class="panel panel-default">'
+        let tmpstr = '<div class="panel-heading role="tab" id="'+"M"+k+'">';
+        let acoll = '<a role="button" data-toggle="collapse" data-parent="#accordion" \
+                href="#collapseM'+k+'" aria-expanded="false" aria-controls="collapse">'+key+'</a></div>'
+        $(deftag+tmpstr+acoll).appendTo("#MODELS");
+        let tmpstrb = '<div id="collapseM'+k+'" class="panel-collapse collapse in" \
+                role="tabpanel" aria-labelledby="heading'+key+'">';
+        let mystr = '<div id='+key+' class="panel-body">';
         //then add all parameters belonging i model 
-        $(mystr).appendTo("#MODELS");
+        $(tmpstrb+mystr).appendTo("#M"+k);
         RecreateDynamicTextboxesB("#"+key,jsonobj.models[key],"models");
+        $('</div></div></div>').appendTo("#MODELS");
         k++;
     };
     let j = 0;
     for (var key in jsonobj.processes){
-        let tmpstr = '<input type="radio" id="'+"P"+j+'" checked aria-hidden="true">';
-        $(tmpstr).appendTo("#PROCESSES");
-        let tmpstrb = '<label for="'+"P"+j+'" aria-hidden="true">'+key+'</label>';
-        $(tmpstrb).appendTo("#PROCESSES");
-        let mystr = '<div id='+key+'></div>';
-        $(mystr).appendTo("#PROCESSES");
-        RecreateDynamicTextboxesB("#"+key,jsonobj.processes[key],"models");
+        let deftag =  '<div class="panel panel-default">'
+        let tmpstr = '<div class="panel-heading role="tab" id="'+"P"+j+'">';
+        let acoll = '<a role="button" data-toggle="collapse" data-parent="#accordion" \
+                href="#collapseP'+j+'" aria-expanded="false" aria-controls="collapse">'+key+'</a></div>'
+        $(deftag+tmpstr+acoll).appendTo("#PROCESSES");
+        let tmpstrb = '<div id="collapseP'+j+'" class="panel-collapse collapse in" \
+                role="tabpanel" aria-labelledby="heading'+key+'">';
+        let mystr = '<div id='+key+' class="panel-body">';
+        $(tmpstrb+mystr).appendTo("#P"+j);
+        RecreateDynamicTextboxesB("#"+key,jsonobj.processes[key],"processes");
+        $('</div></div></div>').appendTo("#PROCESSES");
         j++;
     }
     //RecreateDynamicTextboxesB("#PROCESSES",jsonobj.processes,"processes");

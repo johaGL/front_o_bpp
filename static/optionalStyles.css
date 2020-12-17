@@ -1,6 +1,6 @@
 #header { 
     height: 40px;
-    background :rgba(64, 113, 145, 0.534);
+    background :#80ad9a;
     color : rgb(252, 252, 252);
 }
 
@@ -8,8 +8,8 @@
 #parameters {
     height : auto;
     float: left;
-    background : rgba(64, 113, 145, 0.534);
-
+    background :  #80ad9a;
+  
 }
 
 #treeplayground {
@@ -21,10 +21,10 @@
 #footer {
     border-top: 1px solid #aaa;
     text-align: center;
-    color: rgb(85, 8, 8);
+    color: white;
     /*font-size: 18px;*/
     padding: 0 0 10px 0;
-    background :rgba(64, 113, 145, 0.534); 
+    background :#80ad9a; 
     clear: both;
     position: relative;
     height: 40px;
@@ -56,11 +56,11 @@ li a:hover {
     }
 
 li a:hover:not(.active) {
-    background-color: rgb(145, 153, 26);
+    background-color: rgb(132, 133, 130);
     }
 
 .active {
-    background-color: #4CAF50;
+    background-color: #ead985;
     } 
 
 .limit{
@@ -82,8 +82,13 @@ svg {
 textarea {
     /* margin:0px 0px; this is redundant anyways since its specified below*/
     padding : 0px;
-    height:30px; 
+    height:21px; 
     /* line-height:16px; */
     width:90%; /* changed from 96 to 100% */
         /* margin:0px auto; not needed since i have width 100% now */
     }
+
+#SubtreeRelated {
+    padding : 20px;
+    background-color : rgb(226, 210, 166);
+}

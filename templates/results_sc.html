@@ -41,35 +41,14 @@
           <h4>PHYLOGENETIC TREE(S)</h4>
             <div id="PHYLOS" ></div>
           <h4>MODEL(S)</h4>
-            <div id="MODELS" ></div>
+            <div id="MODELS" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true" ></div>
           <h4>PROCESS(ES)</h4>
-            <div id="PROCESSES"></div>
+            <div id="PROCESSES" class="panel-group" id="accordion" role="tablist" aria-multiselectable="true"></div>
 
           <h4>ROOT(S)</h4>
             <div id="ROOTS" ></div>
 
 
-
-           <!--ooooo-->
-      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-        <div class="panel panel-default">
-          <div class="panel-heading" role="tab" id="headingOne">
-            <h4 class="panel-title">
-              <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                HERE THE COLLAPSIBLE GROUP
-              </a>
-            </h4>
-          </div>
-          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-            <div class="panel-body">
-              <textarea>ahahahahahah</textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-        
-    <!--oooooo-->
-  
           <div id="EndTextBoxContainer" onload="assignDynTextboxes()"></div>
           <button onclick="clearandreloadparams()">Reload Output Parameters</button>
       </div>
@@ -104,9 +83,7 @@
 </body>
 
 <footer id="footer">
-    <p> *** IMPORTANT pending to cite phylotree  
-      https://github.com/veg/phylotree.js 
-       http://phylotree.hyphy.org/documentation/index.html **</p>
+    <p> Referenced software : Bio++, phylotree</p>
 </footer>
 </html>
 {%  endblock content %}
