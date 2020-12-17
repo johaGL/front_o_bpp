@@ -41,7 +41,7 @@ function RecreateDynamicTextboxes(refparent,alist,categ){
         var display = document.createElement("TEXTAREA");
         var label = document.createElement("label");
         display.setAttribute("id", categ+i);
-        display.style.height = "20px";
+        display.style.height = "30px";
         label.setAttribute("id",categ+i);
         var t = document.createTextNode(tmp[1]);
         var l = document.createTextNode(tmp[0]+":");
@@ -53,6 +53,7 @@ function RecreateDynamicTextboxes(refparent,alist,categ){
         var papabox = document.getElementById(categ+i);
         var parentDivbox = papabox.parentNode;
         parentDivbox.insertBefore(label,papabox);
+        console.log("whaaaaaat")
     };  
 }; 
 
@@ -64,7 +65,7 @@ function RecreateDynamicTextboxesB(container,alist,categ){
         var display = document.createElement("TEXTAREA");
         var label = document.createElement("label");
         display.setAttribute("id", parent+categ);
-        display.style.height = "22px";
+        //display.style.height = "30px";
         label.setAttribute("id",parent+categ);
         var t = document.createTextNode(tmp[1]); //value
         var l = document.createTextNode(parent+":");
@@ -117,7 +118,17 @@ function clearandreloadparams(){
 
 // == TREE STUFF
 //http://bl.ocks.org/spond/30926a292ac4f49e1c6c7d900be65f94
-
+function onlyshowbuttons(){
+    var THETREES = document.getElementById("THETREES").innerHTML;
+    var jstrees = JSON.parse(THETREES)
+    for (let i=0;i<jstrees.trees.length;i++){
+        newButton = document.createElement('input');
+        newButton.type = 'button';
+        newButton.value = jstrees.trees[i][0];
+        newButton.id = jstrees.trees[i][0];
+        $(newButton).appendTo("#treebuttonscontainer");
+    }
+};
 
 function treebuttons(){
     var THETREES = document.getElementById("THETREES").innerHTML;
@@ -194,4 +205,4 @@ function treedisplay(ATREE){
     };
 
    
-window.onload = assignDynTextboxes, treebuttons, setcheckboxesstatus;
+window.onload = assignDynTextboxes, onlyshowbuttons, treebuttons, setcheckboxesstatus;

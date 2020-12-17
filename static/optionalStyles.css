@@ -80,3 +80,12 @@ svg {
       width: 100%;
       height: 100%;
     }
+
+textarea {
+    /* margin:0px 0px; this is redundant anyways since its specified below*/
+    padding : 0px;
+    height:30px; 
+    /* line-height:16px; */
+    width:90%; /* changed from 96 to 100% */
+        /* margin:0px auto; not needed since i have width 100% now */
+    }

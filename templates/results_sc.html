@@ -3,6 +3,7 @@
 <html lang='en'> 
 <head>
   <meta charset="utf-8">
+  
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
   <link href="https://veg.github.io/phylotree.js/phylotree.css" rel="stylesheet">
@@ -15,63 +16,65 @@
   <script src="https://veg.github.io/phylotree.js/phylotree.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" charset="utf-8"></script>
   <script src="static/resphyloapp.js" defer></script>
-  <!--completely OOPTIONAL styles (just for first prototype)-->
+  <link rel="stylesheet" href="https://cdn.rawgit.com/Chalarangelo/mini.css/v3.0.1/dist/mini-default.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="static/optionalStyles.css" type="text/css"/>
+
 </head>
-<meta name="viewport" content="width=device-width, initial-scale=3">
 
 <header id="header">Bio++ results</header>
 
 <!--body id="body" onload=paramsResults()-->
 <body id="body" >
-  <span hidden id="DATA">{{DATA}}</span>
-  <span hidden id="THETREES">{{THETREES}}</span>
-  <h1>bppml results</h1>
+  <div class="container">
+      <div id="blankdivision" class="col-sm-12" height=5px>
+         <span hidden id="DATA">{{DATA}}</span>
+        <span hidden id="THETREES">{{THETREES}}</span>
+      </div>
 
-  <div id="parameters">
-      <h2>Parameters</h2> 
-      <!-- textboxes with results appear dynamically -->
-      
-      <!--newstyle-->
-      <h4>*LOG LIKELIHOOD</h4>
-        <div id="LOGLIK"></div>
-      <h4>*PHYLOGENETIC TREE(S)</h4>
-        <div id="PHYLOS" ></div>
-      <h4>*MODEL(S)</h4>
-        <div id="MODELS" > <!--class="collapse" when mini.css--></div>
-      <h4>*PROCESS(ES)</h4>
-        <div id="PROCESSES"></div>
+      <h1>bppml results</h1>
 
-      <h4>*ROOT(S)</h4>
-        <div id="ROOTS" ></div>
-      <div id="EndTextBoxContainer" onload="assignDynTextboxes()"></div>
-      <button onclick="clearandreloadparams()">Reload Output Parameters</button>
-  </div>
+      <div id="parameters" class="col-sm-12 col-md-4" >
+          <h2>Parameters</h2> 
+          <!-- textboxes with results appear dynamically -->
 
-    <div id="SubtreeRelated">
+          <h4>LOG LIKELIHOOD</h4>
+            <div id="LOGLIK" ></div>
+          <h4>PHYLOGENETIC TREE(S)</h4>
+            <div id="PHYLOS" ></div>
+          <h4>MODEL(S)</h4>
+            <div id="MODELS" > <!--class="collapse" when mini.css--></div>
+          <h4>PROCESS(ES)</h4>
+            <div id="PROCESSES"></div>
+
+          <h4>*ROOT(S)</h4>
+            <div id="ROOTS" ></div>
+          <div id="EndTextBoxContainer" onload="assignDynTextboxes()"></div>
+          <button onclick="clearandreloadparams()">Reload Output Parameters</button>
+      </div>
+
+    
+      <div id=treeplayground class="col-sm-12 col-md-8" onload="onlyshowbuttons()">
+          <h2>TREE(S) OUTPUT</h2>
+         
         <form>
-            <label> this checkbox is not used yet  !</label>
-            <input type="checkbox" id="hidesubtree"  />
+          <label>Click on (each) available tree to visualize it</label>
+            <div class="btn-group"id=treebuttonscontainer></div>
+            <label>Radial layout</label>
+            <input type="checkbox" id="layout"  />
         </form>
-        <h4>SubTree Section (Newick)</h4>
-        <p> Your subtree appears here each time you choose 'Copy Subtree as Newick' (overwrite)  </p>
-        <textarea id="newick_holder" rows=5 cols=80></textarea>
-    </div>
+        <div id="treeviz"  >
+            <svg id="tree_display" ></svg>
+        </div>
 
-  <div id="blankdivision" width="3" height="3"></div>
-
-  <div id=treeplayground >
-    <form>
-        <h5>Click on one of the trees to visualize it</h5>
-        <div id=treebuttonscontainer onload="treebuttons()"></div>
-        <label>Radial layout</label>
-        <input type="checkbox" id="layout"  />
-    </form>
-    <div id="treeviz"  >
-        <svg id="tree_display" ></svg>
-    </div>
-  </div>
-
+        <div id="SubtreeRelated"class="shadowed bordered">       
+            <h4>Subtree</h4>
+            <p> Your subtree appears/ovewrites here each time you choose 'Copy Subtree as Newick' </p>
+            <textarea id="newick_holder" rows=4 cols=65></textarea>
+        </div>
+      
+      </div><!--enddivtreeplayground-->
+    </div><!--enddivclasscontainer-->
 </body>
 
 <footer id="footer">

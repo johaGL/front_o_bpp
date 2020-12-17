@@ -20,8 +20,8 @@ def getnewickpaths(relativedir):
     """returns a list of files dnd, accepting all possible suffix"""
     Upath = os.path.join(cwd, relativedir)
     lf_newicks = glob.glob(os.path.join(Upath,"*dnd*"))
-    if (lf_newicks == []):
-        lf_newicks = glob.glob(os.path.join(Upath,"*.nhx*"))
+    nhxfiles_l = glob.glob(os.path.join(Upath,"*.nhx*"))
+    lf_newicks += nhxfiles_l
     return lf_newicks
 
 def file2list(onefile): #DO NOT use with newick EVER!
