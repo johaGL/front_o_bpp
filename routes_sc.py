@@ -4,7 +4,7 @@ import jinja2
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 import json
-from output_fun import * 
+from output_fun import *
 
 
 app = Flask(__name__)

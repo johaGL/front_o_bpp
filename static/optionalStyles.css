@@ -4,28 +4,25 @@
     color : rgb(252, 252, 252);
 }
 
+
 #parameters {
     height : auto;
     float: left;
-    padding : 15px;
-    margin : 10px;
-    width: 25%;
     background : rgba(64, 113, 145, 0.534);
-    overflow: hidden
+
 }
 
 #treeplayground {
     height : auto;
     float: left;
-    width : 65%
-
+    width : 65%;
 }
 
 #footer {
     border-top: 1px solid #aaa;
     text-align: center;
     color: rgb(85, 8, 8);
-    font-size: 18px;
+    /*font-size: 18px;*/
     padding: 0 0 10px 0;
     background :rgba(64, 113, 145, 0.534); 
     clear: both;
@@ -65,6 +62,7 @@ li a:hover:not(.active) {
 .active {
     background-color: #4CAF50;
     } 
+
 .limit{
         width:250px;
         word-wrap: break-word;

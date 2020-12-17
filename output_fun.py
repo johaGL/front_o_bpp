@@ -19,7 +19,7 @@ def getparampaths(relativedir):
 def getnewickpaths(relativedir):
     """returns a list of files dnd, accepting all possible suffix"""
     Upath = os.path.join(cwd, relativedir)
-    lf_newicks = glob.glob(os.path.join(Upath,"*dnd*"))
+    lf_newicks = glob.glob(os.path.join(Upath,"*.dnd*"))
     nhxfiles_l = glob.glob(os.path.join(Upath,"*.nhx*"))
     lf_newicks += nhxfiles_l
     return lf_newicks
@@ -86,8 +86,10 @@ def formattingparams(listofparamsfiles):
                 tmp = elemline.split("=(")
                 d["roots"].append([tmp[0].replace("("," "), tmp[1].strip(")")])
         if d["roots"] == []:
-            d["roots"].append(["none","not given for this model"])
-        print(d["processes"])
+            d["roots"].append(["None","no input roots specified by user"])
+        if len(d["processes"]) == 0:
+            emptynesteddict = {"None" : "no input process specified by user"}
+            d["processes"].update(emptynesteddict)
         return str(d).replace("'",'"')
     else:
         return "ERROR, only one file params.txt must exist" 
