@@ -13,7 +13,8 @@ app = Flask(__name__)
 def results_sc(): 
 	#userfolder = request.args['userfolder']
 	#userfolder = "user01multiProcNHX_Res_001/"
-	userfolder = "testTreeParams/"
+	#userfolder = "testTreeParams/"
+	userfolder ="multiData_Res/" 
 	data = formattingparams(getparampaths(userfolder)) #json-like string, it works ok downstream
 	newickpaths = getnewickpaths(userfolder) # a list of newick files in this folder
 	strtest = ''.join(open(newickpaths[0], 'rt').readlines())

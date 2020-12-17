@@ -7,10 +7,14 @@ cwd = os.getcwd()
 
 
 def getparampaths(relativedir):
-    """Returns a list of files params.txt"""
+    """Returns a list of files params.txt which
+     must be len==1, otherwise returns error"""
     Upath = os.path.join(cwd,relativedir)
     lf_params = glob.glob(os.path.join(Upath,"*params.txt"))
-    return lf_params
+    if len(lf_params) > 1:
+        return  "ERROR several 'params.txt' files found, expected 1" 
+    else:
+        return lf_params
 
 def getnewickpaths(relativedir):
     """returns a list of files dnd, accepting all possible suffix"""
@@ -20,7 +24,7 @@ def getnewickpaths(relativedir):
         lf_newicks = glob.glob(os.path.join(Upath,"*.nhx*"))
     return lf_newicks
 
-def file2list(onefile):
+def file2list(onefile): #DO NOT use with newick EVER!
     stri_l = open(onefile, 'rt').readlines()
     stril_format = [i.replace("'","").replace("\\","").replace(";","").strip() for i in stri_l ]
     stril_format2 = [i.replace("/","").replace(" ","").replace("#","") for i in stril_format ]
@@ -28,7 +32,7 @@ def file2list(onefile):
 
 
 def formattingparams(listofparamsfiles):
-    """  OUTPUT is string as follows :
+    """  OUTPUT is a 'json shaped' string as follows :
 '{"loglik" : [["value", "-3216.54"]],\
 		"phylos" : [["phy1", "...."]],\
 		"models": {"model1_T92" : [["M1_theta1","...."],\
@@ -84,35 +88,45 @@ def formattingparams(listofparamsfiles):
         print(d["processes"])
         return str(d).replace("'",'"')
     else:
-        return "ERROR several parameters.txt files found, expected 1" 
+        return "ERROR, only one file params.txt must exist" 
 
-def filetostring(dir_fullpath, regexpat):
-    f_given = glob.glob(os.path.join(dir_fullpath,regexpat))
-    stri_l = open(f_given[0], 'rt').readlines()
-    stri_format = [i.replace("'","").replace("\\","").replace(";","").strip() for i in stri_l ]
-    stri_format2 = [i.replace("/","").replace("+","").replace("#","") for i in stri_format ]
-    stri = ''.join(stri_format2)
-    return stri
+def getprofilepath(relativedir):
+    """Returns profile path"""
+    Upath = os.path.join(cwd,relativedir)
+    lf_profile = glob.glob(os.path.join(Upath,"*profile"))
+    if len(lf_profile) > 1:
+        return  "ERROR several 'profile' files found, expected 1" 
+    else:
+        return lf_profile
 
-def dictionnary(resdir,userdir):
-    Upath = os.path.join(cwd,resdir,userdir)
-    #paramsstring = filetostring(Upath, "*params.txt")
-    dicti = {}
-    dicti["paramsout"] = filetostring(Upath, "*params.txt")
-    dicti["newick"] = filetostring(Upath, "*.dnd")
-    return dicti
+def getBranchesProfile(filepath):
+    print(filepath)
+    try:
+        stri_l = open(filepath[0], 'rt').readlines()
+        header = stri_l[0].strip().split("\t")
+        bottom = stri_l[-1].strip().split("\t")
+        dico = {}
+        k = len(header)
+        for i in range(k):
+            #depending on suffix ('_1' for example)
+            #add to respective tree key
+            if 'BrLen' in header[i]:
+                tmp = header[i].split("_")
+                suffix = tmp[1]
+                name = tmp[0].replace('BrLen','')
+                if not "branchestree_"+suffix in dico.keys():
+                    dico["branchestree_"+suffix] = {}
+                    dico["branchestree_"+suffix][int(name)] = bottom[i]
+                else:
+                    dico["branchestree_"+suffix][int(name)] = bottom[i]
+        print(dico)  
+        print(sorted(dico['branchestree_1'].keys()))
+        print(sorted(dico['branchestree_2'].keys()))
+        return dico
+    except:
+        print("unable to extract branches profile")
 
-def stringlikejson(resdir, userdir):
-    Upath = os.path.join(cwd, resdir, userdir)
-    nwk = filetostring(Upath, "*.dnd")
-    tmp = '{"newick" : "mystringnwk"}'
-    nwk_strdict = tmp.replace("mystringnwk",nwk)
-    return nwk_strdict
-
-def getjustnewick(resdir,userdir):
-    Upath = os.path.join(cwd,resdir,userdir)
-    strinwk = filetostring(Upath, "*.dnd")
-    return strinwk
+### all unnecessary functions deleted
 
 
 
@@ -122,11 +136,13 @@ if __name__ == '__main__':
     print(cwd)
     #data = stringlikejson("RESULTS","user001")
 	#datastr = str(dictio2json(data)) 
-    locnewresu = "user01multiProcNHX_Res_001/"   
+    locnewresu = "user01multiProcNHX_Res_001/" 
+    #locnewresu = "multiData_Res/"  
     print("")
     print(formattingparams(getparampaths(locnewresu)))
     newickpaths = getnewickpaths(locnewresu)
     strtest = ''.join(open(newickpaths[0], 'rt').readlines())
+    print(getBranchesProfile(getprofilepath(locnewresu)))
     print(newickpaths)
     
 
