@@ -3,6 +3,7 @@
  <span hidden id="show2">{{data}}</span>
  existing in results.html
 */
+
 function setcheckboxesstatus(){
     var inputs = document.getElementsByTagName("input");
     for(var i=0; i<inputs.length; i++){
@@ -25,7 +26,6 @@ function deduplicatestring(dubiousstr){
         return dubiousstr;
     }
 };
-
 
 function RecreateDynamicTextboxes(refparent,alist,categ){
     for (var i=(alist.length)-1; i>=0; i--) {
@@ -115,25 +115,53 @@ function assignDynTextboxes(values,categ){
         $('</div></div></div>').appendTo("#PROCESSES");
         j++;
     }
-    //RecreateDynamicTextboxesB("#PROCESSES",jsonobj.processes,"processes");
     RecreateDynamicTextboxesB("#ROOTS",jsonobj.roots,"roots");
 };
+
+/* special section
+ * for checking tree existence in results
+ */
+let recognizecontent = document.getElementById("nbtrees").innerHTML;
+console.log(recognizecontent);
+if (recognizecontent !== 0){
+    asyncCall();
+}else{alert("ERROR, no trees in result server folder!")};
+/*end checking tree existence in results*/
 
 function clearandreloadparams(){
     $('#parameters').val('');
 };
 
-
+function resolveAfterSeconds() {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve('resolved');
+      }, 500);
+    });
+  }
+  
+  async function asyncCall() {
+    console.log('calling');
+    const result = await resolveAfterSeconds();
+    console.log(result);
+    treebuttons();
+    // expected output: "resolved"
+  }
+  
 // == TREE STUFF
 //http://bl.ocks.org/spond/30926a292ac4f49e1c6c7d900be65f94
-function onlyshowbuttons(){
+function createbuttons(){
     var THETREES = document.getElementById("THETREES").innerHTML;
-    var jstrees = JSON.parse(THETREES)
+    var jstrees = JSON.parse(THETREES);
+    console.log(jstrees)
     for (let i=0;i<jstrees.trees.length;i++){
         let newButton = document.createElement('input');
         newButton.type = 'button';
         newButton.value = jstrees.trees[i][0];
         newButton.id = jstrees.trees[i][0];
+        newButton.onclick = function(){
+            alert(jstrees.trees[i][1]);
+        };
         $(newButton).appendTo("#treebuttonscontainer");
     }
 };
@@ -149,13 +177,12 @@ function treebuttons(){
         newButton.value = jstrees.trees[i][0];
         newButton.id = jstrees.trees[i][0];
         newButton.onclick = function () {
-            //alert('very easy here to make function to display tree !!!! You pressed '+this.id);
             treedisplay(jstrees.trees[i][1]);//the second elem of the tuple is tree
           };
-        //buttonContainer.appendChild(newButton);
         $(newButton).appendTo("#treebuttonscontainer");
     }
-}
+};
+
 
 function my_menu_title(node){
     return "Copy Subtree as Newick";
@@ -212,5 +239,4 @@ function treedisplay(ATREE){
         });//end d3.text 
     };
 
-
-window.onload = assignDynTextboxes, onlyshowbuttons, treebuttons, setcheckboxesstatus;
+window.onload = assignDynTextboxes, asyncCall;

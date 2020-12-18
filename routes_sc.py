@@ -24,9 +24,9 @@ def results_sc():
 		tmptrees.append([name,newick])
 		#strtest = ''.join(open(newickpaths[0], 'rt').readlines())
 	thetrees = '{"trees": '+str(tmptrees).replace("'",'"')+"}"
-	print(type(thetrees))
+	nbtrees = str(len(newickpaths))
 	#strtest = ''.join(open('testTreeParams/SPOND.dnd_1','rt').readlines())
-	return render_template('results_sc.html', title = 'results', DATA=data, THETREES=thetrees)
+	return render_template('results_sc.html', title = 'results', nbtrees=nbtrees, DATA=data, THETREES=thetrees)
 	if request.method == 'POST':
 		return "in progress++"
 		

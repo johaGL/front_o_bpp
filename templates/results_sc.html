@@ -22,12 +22,14 @@
 
 <header id="header">Bio++ results</header>
 
-<!--body id="body" onload=paramsResults()-->
 <body id="body" >
   <div class="container fluid">
       <div id="blankdivision" class="col-lg-12" height=5px>
+          <span hidden id="nbtrees">{{nbtrees}}</span>
+
          <span hidden id="DATA">{{DATA}}</span>
-        <span hidden id="THETREES">{{THETREES}}</span>
+          <span hidden id="THETREES">{{THETREES}}</span>
+
       </div>
 
       <h1>bppml results</h1>
@@ -48,18 +50,16 @@
           <h4>ROOT(S)</h4>
             <div id="ROOTS" ></div>
 
-
-          <div id="EndTextBoxContainer" onload="assignDynTextboxes()"></div>
           <button onclick="clearandreloadparams()">Reload Output Parameters</button>
       </div>
 
-    
-      <div id=treeplayground class="col-lg-12 col-lg-8" onload="onlyshowbuttons()">
-          <h2>TREE(S) OUTPUT</h2>
-         
-        <form>
+     
+      <div id=treeplayground class="col-lg-12 col-lg-8" >
+        <div id="t" onload="asyncCall()" >noseqhacer</div>
+          <h2 >TREE(S) OUTPUT</h2>    
+        <form >
           <label>Click on (each) available tree to visualize it</label>
-            <div class="btn-group"id=treebuttonscontainer></div>
+            <div class="btn-group"id=treebuttonscontainer ></div>
             <label>Radial layout</label>
             <input type="checkbox" id="layout"  />
         </form>
@@ -71,19 +71,27 @@
             <h4>Subtree</h4>
             <p> Your subtree appears/ovewrites here each time you choose 'Copy Subtree as Newick' </p>
             <textarea id="newick_holder" rows=4 cols=65></textarea>
-        </div>
-      
+        </div>  
+        
+        <div id="downloadzip" class="col-lg-12 col-lg-8">
+          <h4>Download complete folder results (.zip):
+            <button type="button" class="btn btn-default btn-sm">
+              <span class="glyphicon glyphicon-download-alt" ></span> Download .zip
+            </button>
+          </h4>  
+      </div>
+
       </div><!--enddivtreeplayground-->
-
+   
      
-    </div><!--enddivclasscontainer-->
 
+    </div><!--enddivclasscontainer-->
 
 
 </body>
 
 <footer id="footer">
-    <p> Referenced software : Bio++, phylotree</p>
+    <p> Referenced software : Bio++, BppSuite, phylotree</p>
 </footer>
 </html>
 {%  endblock content %}

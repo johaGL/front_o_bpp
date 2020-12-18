@@ -92,3 +92,10 @@ textarea {
     padding : 20px;
     background-color : rgb(226, 210, 166);
 }
+
+#downloadzip {
+    padding : 10px;
+    margin-top: 10px;
+    margin-left: 10px;
+
+}
